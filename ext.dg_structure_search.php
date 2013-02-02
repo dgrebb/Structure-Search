@@ -101,7 +101,7 @@ class Dg_structure_search_ext
 		
 		// Add a search box inside the Structure interface
 
-		$('<input id="structure-filter-input" placeholder="Filter Pages" type="text" style="width:30%;" />').insertBefore('#tree-controls');
+		$('<input id="structure-filter-input"  placeholder="Filter Pages" type="text" style="width:33%;" />').insertBefore('#tree-controls').focus();
 
 		// Bind keyup to Structure Filter input so we only trigger the expand javascript on the first keyup only
 
