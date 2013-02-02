@@ -1,5 +1,32 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/*
+ * Structure Search
+ *
+ * @package Structure Search
+ * @author Dan Grebb <dgrebb@gmail.com>
+ * @link http://dgrebb.com
+ 
+	Structure Search is licensed under Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+
+	This is free for you to use and share under the following conditions:
+
+	Attribution: 
+
+	You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
+
+	Share Alike: 
+
+	If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
+
+ */
+
+This 
+You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
+
+
+*/
+
 class Dg_structure_search_ext
 {
 
