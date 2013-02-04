@@ -27,8 +27,8 @@ class Dg_structure_search_ext
 	var $name 					= 'Structure Search';
 	var $version				= '0.1';
 	var $description			= 'Adds a search box to the Structure tree view, allowing you to filter Structure nodes by typing.';
-	var $settings_exist			= 'n';
-	var $docs_url				= ''; // we'll set this up later
+	var $settings_exist			= 'y';
+	var $docs_url				= 'https://github.com/dgrebb/Structure-Search';
 	
 	var $settings				= array();
 
@@ -41,6 +41,21 @@ class Dg_structure_search_ext
 	{
 		$this->EE =& get_instance();
 		$this->settings = $settings;
+	}
+	// END
+
+    // --------------------------------
+	//  Settings
+	// --------------------------------
+
+	function settings()
+	{
+	    $settings = array(
+	    	'input_placeholder'	=>		array('i', '', "Filter Pages"),
+	    	'show_children'		=>		array('r', array('y' => 'Show', 'n' => 'Hide'), 'y')
+	    );
+
+	    return $settings;
 	}
 	// END
 
@@ -110,34 +125,30 @@ class Dg_structure_search_ext
 		$this->EE->db->where('class', __CLASS__);
 		$this->EE->db->delete('extensions');
 	}
-
 	/**
 		* Let's add some javascript to the Structure tree view
 	*/
-	function structure_js_insert()
+	function structure_js_insert($settings)
 	{
 		$javascript = "";
 
+		/**
+			* Set some variables based on settings page
+		*/
+		$input_placeholder = $settings['input_placeholder'];
+
 		$javascript .= <<<EOJS
-		
-		// Add a search box inside the Structure interface
 
-		$('<input id="structure-filter-input"  placeholder="Filter Pages" type="text" style="width:33%;" />').insertBefore('#tree-controls').focus();
-
-		// Bind keyup to Structure Filter input so we only trigger the expand javascript on the first keyup only
+		$('<input id="structure-filter-input"  placeholder="{$input_placeholder}" type="text" style="width:33%;" />').insertBefore('#tree-controls').focus();
 
 		$('#structure-filter-input').focus(function(){
 			$(document).trigger('collapsibles.structure', {type: 'expand'});
 		});
 
-		// create case-insensitive :contains
-
 		jQuery.expr[':'].contains = function(a, i, m) {
 			return jQuery(a).text().toUpperCase()
 			    .indexOf(m[3].toUpperCase()) >= 0;
 		};
-
-		// Connect search box input and start filtering
 
 		$('#structure-filter-input').keyup(function(){
 			var filterValue = $('#structure-filter-input').val();
@@ -154,6 +165,7 @@ EOJS;
 	{    
 
 		$this->EE->load->helper('array');
+	    $settings = $this->settings;
 
 	    //get $_GET from the referring page
 	    parse_str(parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $get);
@@ -170,7 +182,7 @@ EOJS;
 		$(document).ready(function () {
 EOJS;
 
-		$javascript .= $this->structure_js_insert();
+		$javascript .= $this->structure_js_insert($settings);
 
 		$javascript .= <<<EOJS
 
