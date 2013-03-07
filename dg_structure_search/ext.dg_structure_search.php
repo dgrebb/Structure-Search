@@ -135,28 +135,44 @@ class Dg_structure_search_ext
 		/**
 			* Set some variables based on settings page
 		*/
+
 		$input_placeholder = $settings['input_placeholder'];
 
 		$javascript .= <<<EOJS
+			$('<input id="structure-filter-input"  placeholder="{$input_placeholder}" type="text" style="width:33%;" />').insertBefore('#tree-controls').focus();
 
-		$('<input id="structure-filter-input"  placeholder="{$input_placeholder}" type="text" style="width:33%;" />').insertBefore('#tree-controls').focus();
+			$('#structure-filter-input').focus(function(){
+				$(document).trigger('collapsibles.structure', {type: 'expand'});
+			});
 
-		$('#structure-filter-input').focus(function(){
-			$(document).trigger('collapsibles.structure', {type: 'expand'});
-		});
-
-		jQuery.expr[':'].contains = function(a, i, m) {
-			return jQuery(a).text().toUpperCase()
-			    .indexOf(m[3].toUpperCase()) >= 0;
-		};
-
-		$('#structure-filter-input').keyup(function(){
-			var filterValue = $('#structure-filter-input').val();
-			$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
-			$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
-		});
-
+			jQuery.expr[':'].contains = function(a, i, m) {
+				return jQuery(a).text().toUpperCase()
+				    .indexOf(m[3].toUpperCase()) >= 0;
+			};
 EOJS;
+
+		if($this->settings['show_children'] == 'y')
+		{
+			$javascript .= <<<EOJS
+				$('#structure-filter-input').keyup(function(){
+					var filterValue = $('#structure-filter-input').val();
+					$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
+					$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
+					$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
+				});
+EOJS;
+		}
+
+		if($this->settings['show_children'] == 'n')
+		{
+			$javascript .= <<<EOJS
+				$('#structure-filter-input').keyup(function(){
+					var filterValue = $('#structure-filter-input').val();
+					$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
+					$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
+				});
+EOJS;
+		}
 
 		return $javascript;
 	}
