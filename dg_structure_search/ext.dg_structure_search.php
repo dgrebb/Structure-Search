@@ -52,9 +52,9 @@ class Dg_structure_search_ext
 	{
 	    $settings = array(
 	    	'input_placeholder'	=>		array('i', '', "Filter Pages"),
-	    	'focus_immediately'	=>		array('r', array('y' => 'Yes', 'n' => 'No'), 'y'),
-	    	'show_parents'		=>		array('r', array('y' => 'Show', 'n' => 'Hide'), 'y'),
-	    	'show_children'		=>		array('r', array('y' => 'Show', 'n' => 'Hide'), 'y')
+	    	'focus_immediately'	=>		array('r', array('y' => 'Yes', 'n' => 'No'), 'n'),
+	    	'show_parents'		=>		array('r', array('y' => 'Show', 'n' => 'Hide'), 'n'),
+	    	'show_children'		=>		array('r', array('y' => 'Show', 'n' => 'Hide'), 'n')
 	    );
 
 	    return $settings;
