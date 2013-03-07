@@ -154,12 +154,20 @@ EOJS;
 		if($this->settings['show_children'] == 'y')
 		{
 			$javascript .= <<<EOJS
-				$('#structure-filter-input').keyup(function(){
-					var filterValue = $('#structure-filter-input').val();
-					$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
-					$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
-					$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
-				});
+//show only matched, hiding both parents and children of matched entry
+				// $('#structure-filter-input').keyup(function(){
+				// 	var filterValue = $('#structure-filter-input').val();
+				// 	$(".page-title a:not(:contains('" + filterValue + "'))").closest('.page-item').children('.item-wrapper').hide();
+				// 	$(".page-title a:contains('" + filterValue + "')").closest('.page-item').children('.item-wrapper').show();
+				// 	$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
+				// });
+//below code shows both parents and children
+				// $('#structure-filter-input').keyup(function(){
+				// 	var filterValue = $('#structure-filter-input').val();
+				// 	$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
+				// 	$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
+				// 	$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
+				// });
 EOJS;
 		}
 
