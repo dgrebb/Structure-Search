@@ -53,6 +53,7 @@ class Dg_structure_search_ext
 	    $settings = array(
 	    	'input_placeholder'	=>		array('i', '', "Filter Pages"),
 	    	'focus_immediately'	=>		array('r', array('y' => 'Yes', 'n' => 'No'), 'y'),
+	    	'show_parents'		=>		array('r', array('y' => 'Show', 'n' => 'Hide'), 'y'),
 	    	'show_children'		=>		array('r', array('y' => 'Show', 'n' => 'Hide'), 'y')
 	    );
 
@@ -165,20 +166,30 @@ EOJS;
 				var filterValue = $('#structure-filter-input').val();
 EOJS;
 
-		if($this->settings['show_children'] == 'y')
+		if($this->settings['show_children'] == 'y' && $this->settings['show_parents'] == 'y')
 		{
 			$javascript .= <<<EOJS
-
-				// shows only matched, hiding both parents and children of matched entry
-				// $(".page-title a:not(:contains('" + filterValue + "'))").closest('.page-item').children('.item-wrapper').hide();
-				// $(".page-title a:contains('" + filterValue + "')").closest('.page-item').children('.item-wrapper').show();
-				// $(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
-
 				// shows both parents and children
-				// $(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
-				// $(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
-				// $(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
+				$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
+				$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
+				$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
 
+EOJS;
+		}
+
+		if($this->settings['show_children'] == 'n' && $this->settings['show_parents'] == 'y')
+		{
+			$javascript .= <<<EOJS
+				// hides children
+				$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
+				$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
+
+EOJS;
+		}
+
+		if($this->settings['show_children'] == 'y' && $this->settings['show_parents'] == 'n')
+		{
+			$javascript .= <<<EOJS
 				// shows only children
 				$(".page-title a:not(:contains('" + filterValue + "'))").closest('.page-item').children('.item-wrapper').hide();
 				$(".page-title a:contains('" + filterValue + "')").closest('li').find('.item-wrapper').show();
@@ -187,12 +198,13 @@ EOJS;
 EOJS;
 		}
 
-		if($this->settings['show_children'] == 'n')
+		if($this->settings['show_children'] == 'n' && $this->settings['show_parents'] == 'n')
 		{
 			$javascript .= <<<EOJS
-				// hides children of matched entry
-				$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
-				$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
+				// shows only matched, hiding both parents and children
+				$(".page-title a:not(:contains('" + filterValue + "'))").closest('.page-item').children('.item-wrapper').hide();
+				$(".page-title a:contains('" + filterValue + "')").closest('.page-item').children('.item-wrapper').show();
+				$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
 
 EOJS;
 		}
