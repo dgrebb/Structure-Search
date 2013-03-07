@@ -25,7 +25,7 @@ class Dg_structure_search_ext
 {
 
 	var $name 					= 'Structure Search';
-	var $version				= '0.1';
+	var $version				= '0.2';
 	var $description			= 'Adds a search box to the Structure tree view, allowing you to filter Structure nodes by typing.';
 	var $settings_exist			= 'y';
 	var $docs_url				= 'https://github.com/dgrebb/Structure-Search';
@@ -52,6 +52,7 @@ class Dg_structure_search_ext
 	{
 	    $settings = array(
 	    	'input_placeholder'	=>		array('i', '', "Filter Pages"),
+	    	'focus_immediately'	=>		array('r', array('y' => 'Yes', 'n' => 'No'), 'y'),
 	    	'show_children'		=>		array('r', array('y' => 'Show', 'n' => 'Hide'), 'y')
 	    );
 
@@ -101,7 +102,7 @@ class Dg_structure_search_ext
 			return FALSE;
 		}
 
-		if ($current < '0.1')
+		if ($current < '0.2')
 		{
 			//update to version 0.1
 		}
@@ -138,13 +139,24 @@ class Dg_structure_search_ext
 
 		$input_placeholder = $settings['input_placeholder'];
 
-		$javascript .= <<<EOJS
-			$('<input id="structure-filter-input"  placeholder="{$input_placeholder}" type="text" style="width:33%;" />').insertBefore('#tree-controls').focus();
+		if($this->settings['focus_immediately'] == 'y')
+		{
+			$javascript .= <<<EOJS
+				$('<input id="structure-filter-input"  placeholder="{$input_placeholder}" type="text" style="width:33%;" />').insertBefore('#tree-controls').focus();
+EOJS;
+		}
 
+		if($this->settings['focus_immediately'] == 'n')
+		{
+			$javascript .= <<<EOJS
+				$('<input id="structure-filter-input"  placeholder="{$input_placeholder}" type="text" style="width:33%;" />').insertBefore('#tree-controls');
+EOJS;
+		}
+
+		$javascript .= <<<EOJS
 			$('#structure-filter-input').focus(function(){
 				$(document).trigger('collapsibles.structure', {type: 'expand'});
 			});
-
 			jQuery.expr[':'].contains = function(a, i, m) {
 				return jQuery(a).text().toUpperCase()
 				    .indexOf(m[3].toUpperCase()) >= 0;
@@ -162,12 +174,12 @@ EOJS;
 				// 	$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
 				// });
 //below code shows both parents and children
-				// $('#structure-filter-input').keyup(function(){
-				// 	var filterValue = $('#structure-filter-input').val();
-				// 	$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
-				// 	$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
-				// 	$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
-				// });
+				$('#structure-filter-input').keyup(function(){
+					var filterValue = $('#structure-filter-input').val();
+					$(".page-title a:not(:contains('" + filterValue + "'))").parents('.page-item').hide();
+					$(".page-title a:contains('" + filterValue + "')").parents('.page-item').show();
+					$(".page-title a:contains('" + filterValue + "')").parents('.page-item').find("li").show();
+				});
 EOJS;
 		}
 
