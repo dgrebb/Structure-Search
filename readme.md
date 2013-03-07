@@ -9,6 +9,16 @@ Installation
 1. Copy the dg_structure_search folder to system/expressionengine/third_party.
 2. Enable the extension in the ExpressionEngine control panel. Add-Ons > Extensions.
 
+Settings
+------------
+
+A few settings are available for more control over how the filter behaves.
+
+- **Searchbox Placeholder Text** - set custom placeholder text in the searchbox
+- **Focus Searchbox** - set the searchbox to automatically focus on page load - start searching without having to click onto the searchbox  
+- **Show/Hide Parents** - set whether parent items of matched entries are shown or not
+- **Show/Hide Children** - set whether childen items of matched entries are shown or not
+
 Legal
 -----
 
