@@ -144,6 +144,13 @@ class Dg_structure_search_ext
 		{
 			$javascript .= <<<EOJS
 				$('<input id="structure-filter-input"  placeholder="{$input_placeholder}" type="text" style="width:33%;" />').insertBefore('#tree-controls').focus();
+				//fix tree switcher if structure instance is using structure assets
+				if ($('#tree-switcher')[0]){
+					$('#structure-filter-input').css({
+						position: 'relative',
+						top: '-25px'
+					});
+				}
 EOJS;
 		}
 
