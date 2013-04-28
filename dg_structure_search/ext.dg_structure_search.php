@@ -25,7 +25,7 @@ class Dg_structure_search_ext
 {
 
 	var $name 					= 'Structure Search';
-	var $version				= '0.2';
+	var $version				= '0.2.1';
 	var $description			= 'Adds a search box to the Structure tree view, allowing you to filter Structure nodes by typing.';
 	var $settings_exist			= 'y';
 	var $docs_url				= 'https://github.com/dgrebb/Structure-Search';
@@ -103,7 +103,7 @@ class Dg_structure_search_ext
 			return FALSE;
 		}
 
-		if ($current < '0.2')
+		if ($current < '0.2.1')
 		{
 			//update to version 0.1
 		}
