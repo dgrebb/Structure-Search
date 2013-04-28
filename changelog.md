@@ -1,3 +1,7 @@
+$$ v0.2.1 (April 28, 2013)
+
+- **fixed styling issue if structure is using structure assets**
+
 ## v0.2 (March 7, 2013)
 
 - **added setting to allow changing placeholder text inside of the searchbox**
