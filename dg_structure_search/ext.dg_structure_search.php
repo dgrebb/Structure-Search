@@ -222,14 +222,16 @@ EOJS;
 	public function cp_js_end()
 	{    
 
-		$this->EE->load->helper('array');
+	    //$this->EE->load->helper('array');
 	    $settings = $this->settings;
 
 	    //get $_GET from the referring page
-	    parse_str(parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $get);
+	    $get = parse_url(@$_SERVER['HTTP_REFERER']);
+            preg_match('/module=[^?&]+/', $get['query'], $result);
+            parse_str($result[0]);
 	    $javascript = $this->EE->extensions->last_call;
 
-	    if (element('module', $get) !== 'structure')
+	    if ($module !== 'structure')
 	    {
 	      return $javascript;
 	    }
